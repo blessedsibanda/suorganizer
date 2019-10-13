@@ -1,0 +1,5 @@
+POSTGRES_DB=suorganizer
+POSTGRES_PASSWORD=BSMQ7ClLUKDG
+POSTGRES_USER=suorganizer_user
+DATABASE_URL=postgres://suorganizer_user:BSMQ7ClLUKDG@postgres:5432/suorganizer
+SECRET_KEY=ckFg0SMDVT0SdzjndukoVUFvdJa8umEdUoYrJrGnaNDSyS5aya
