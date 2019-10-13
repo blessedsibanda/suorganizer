@@ -5,7 +5,10 @@ from .models import Startup, NewsLink, Tag
 
 
 class TagSerializer(ModelSerializer):
-    url = HyperlinkedIdentityField(view_name='api-tag-detail')
+    url = HyperlinkedIdentityField(
+        view_name='api-tag-detail',
+        lookup_field='slug'
+    )
     class Meta:
         model = Tag 
         fields = '__all__'
