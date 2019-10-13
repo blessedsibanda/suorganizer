@@ -1,31 +1,22 @@
-from rest_framework.fields import (
-    CharField, IntegerField, SlugField,
-    DateField, EmailField, URLField
-)
+from rest_framework.serializers import ModelSerializer
 
-from rest_framework.serializers import Serializer
+from .models import Startup, NewsLink, Tag
 
 
-class TagSerializer(Serializer):
-    id = IntegerField(read_only=True)
-    name = CharField(max_length=31)
-    slug = SlugField(max_length=31, allow_blank=True)
+class TagSerializer(ModelSerializer):
+    class Meta:
+        model = Tag 
+        fields = '__all__'
 
-class StartupSerializer(Serializer):
-    id = IntegerField(read_only=True)
-    name = CharField(max_length=31)
-    slug = SlugField(max_length=31)
-    description = CharField()
-    founded_date = DateField()
-    contact = EmailField()
-    website = URLField(max_length=255)
+class StartupSerializer(ModelSerializer):
     tags = TagSerializer(many=True)
+    class Meta:
+        model = Startup 
+        fields = '__all__'
 
-class NewsLinkSerializer(Serializer):
-    id = IntegerField(read_only=True)
-    title= CharField(max_length=63)
-    slug = SlugField(max_length=63)
-    pub_date = DateField()
-    link =URLField(max_length=255)
+class NewsLinkSerializer(ModelSerializer):
     startup = StartupSerializer()
+    class Meta:
+        model = NewsLink
+        fields = '__all__'
 
