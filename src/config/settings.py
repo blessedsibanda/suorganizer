@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third party
+    'rest_framework',
+    'django_extensions',
+
     # local 
     'blog.apps.BlogConfig',
     'organizer.apps.OrganizerConfig',
