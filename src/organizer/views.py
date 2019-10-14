@@ -1,23 +1,31 @@
 import json
 
 from django.views.decorators.http import require_http_methods
-from rest_framework.response import Response 
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, \
+                                        ListCreateAPIView,\
+                                        RetrieveUpdateAPIView, \
+                                        RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 from django.views.generic import ListView, DetailView
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_400_BAD_REQUEST,
+)
+
 
 from .models import Tag, Startup, NewsLink
 from .serializers import TagSerializer, StartupSerializer, \
                             NewsLinkSerializer
 
 
-class TagApiDetail(RetrieveAPIView):
+class TagApiDetail(RetrieveUpdateDestroyAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     lookup_field = 'slug'
 
 
-class TagApiList(ListAPIView):
+class TagApiList(ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
