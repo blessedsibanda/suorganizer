@@ -5,8 +5,8 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework.response import Response 
 from rest_framework.views import APIView
 
-from .models import Tag
-from .serializers import TagSerializer
+from .models import Tag, Startup
+from .serializers import TagSerializer, StartupSerializer
 
 
 class TagApiDetail(APIView):
@@ -18,6 +18,7 @@ class TagApiDetail(APIView):
         )
         return Response(s_tag.data)    
 
+
 class TagApiList(APIView):
     def get(self, request):
         tag_list = get_list_or_404(Tag)
@@ -26,3 +27,24 @@ class TagApiList(APIView):
             context={'request': request}
         )
         return Response(s_tags.data)
+
+
+class StartupAPIDetail(APIView):
+    def get(self, request, slug):
+        startup = get_object_or_404(Startup, slug=slug)
+        s_startup = StartupSerializer(
+            startup,
+            context={ 'request': request }
+        )
+        return Response(s_startup.data)
+
+
+class StartupAPIList(APIView):
+    def get(self, request):
+        startup_list = get_list_or_404(Startup)
+        s_startup = StartupSerializer(
+            startup_list,
+            many=True,
+            context = {'request': request }
+        )
+        return Response(s_startup.data)
