@@ -1,5 +1,8 @@
 from rest_framework.serializers import ModelSerializer,\
+                                        SerializerMethodField, \
+                                        HyperlinkedRelatedField, \
                                         HyperlinkedModelSerializer
+from rest_framework.reverse import reverse
 
 from .models import Startup, NewsLink, Tag
 
@@ -15,8 +18,9 @@ class TagSerializer(HyperlinkedModelSerializer):
             }
         }
 
+
 class StartupSerializer(HyperlinkedModelSerializer):
-    tags = TagSerializer(many=True)
+    tags = TagSerializer(many=True, read_only=True)
     class Meta:
         model = Startup 
         fields = '__all__'
@@ -29,8 +33,23 @@ class StartupSerializer(HyperlinkedModelSerializer):
 
 
 class NewsLinkSerializer(ModelSerializer):
-    startup = StartupSerializer()
+    url = SerializerMethodField()
+    startup = HyperlinkedRelatedField(
+        queryset=Startup.objects.all(),
+        lookup_field='slug',
+        view_name='api-startup-detail'
+    )
     class Meta:
         model = NewsLink
-        fields = '__all__'
-
+        exclude = ('id',)
+    
+    def get_url(self, newslink):
+        return reverse(
+            'api-newslink-detail',
+            kwargs=dict(
+                startup_slug=newslink.startup.slug,
+                newslink_slug=newslink.slug,
+            ),
+            request=self.context['request']
+        )
+ 

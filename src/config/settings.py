@@ -87,7 +87,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 DATABASES = {
-    "default": ENV.db("DATABASE_URL")
+    "default": ENV.db(
+        "DATABASE_URL",
+        default=f"sqlite:////{BASE_DIR}/db.sqlite3",
+    )
 }
 
 
