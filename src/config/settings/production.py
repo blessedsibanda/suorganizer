@@ -8,9 +8,8 @@ ADMINS = MANAGERS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-======================
 # SECURITY SETTINGS #
-======================
+
 
 CSRF_COOKIE_HTTPONLY = True 
 CSRF_COOKIE_SECURE = True 
