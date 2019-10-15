@@ -1,13 +1,16 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 
 from .views import TagApiList, TagApiDetail, StartupAPIDetail,\
         StartupAPIList, NewsLinkAPIDetail, NewsLinkAPIList
+from .viewsets import TagViewSet
 
 
-urlpatterns = [
-    path("", TagApiList.as_view(), name="api-tag-list"),
-    path("tag/", TagApiList.as_view(), name="api-tag-list"),
-    path("tag/<str:slug>/", TagApiDetail.as_view(), name="api-tag-detail"),
+api_router = SimpleRouter()
+api_router.register('tag', TagViewSet, base_name='api-tag')
+api_routes = api_router.urls
+
+urlpatterns = api_routes + [
     path('startup/',
         StartupAPIList.as_view(), name='api-startup-list'),
     path('startup/<str:slug>/',
