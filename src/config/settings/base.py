@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-from environ import Env
+from environ import Env, Path
 
 ENV = Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.pardir)
+BASE_DIR = Path(__name__)
 
 
 # Quick-start development settings - unsuitable for production
@@ -68,7 +68,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, 'templates'),
+            Path(BASE_DIR,'templates')
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -128,5 +128,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'runtime', 'static')
+STATIC_ROOT = Path(BASE_DIR,'runtime', 'static')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
