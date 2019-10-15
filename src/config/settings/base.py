@@ -12,24 +12,24 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-from environ import Env
+from environ import Env, Path
 
 ENV = Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__name__) - 3
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "vic1oz#0z4zoj4i#4=f(dtdx9)crdqapiz*ctq(#qsx)5mt-ub"
+SECRET_KEY = ENV.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENV.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -65,7 +65,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, 'templates'),
+            BASE_DIR('templates')
         ],
         "APP_DIRS": True,
         "OPTIONS": {
