@@ -12,12 +12,15 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-from environ import Env, Path
+from environ import Env
 
 ENV = Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__name__) - 3
+BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.pardir)
+
+
+print(BASE_DIR, 'the base dir')
 
 
 # Quick-start development settings - unsuitable for production
@@ -65,7 +68,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR('templates')
+            os.path.join(BASE_DIR, 'templates'),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
