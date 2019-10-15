@@ -1,18 +1,16 @@
-import json
-
-from django.views.decorators.http import require_http_methods
 from rest_framework.generics import ListAPIView, RetrieveAPIView, \
                                         ListCreateAPIView,\
                                         RetrieveUpdateAPIView, \
                                         RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404, redirect, render
-from rest_framework.response import Response
-from django.views.generic import ListView, DetailView, View
-from django.urls import reverse
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_400_BAD_REQUEST,
-)
+from django.views.generic import (
+    ListView,
+    DetailView,
+    View,
+    CreateView, 
+    UpdateView,
+    DeleteView)
+from django.urls import reverse_lazy
 
 
 from .models import Tag, Startup, NewsLink
@@ -21,53 +19,26 @@ from .serializers import TagSerializer, StartupSerializer, \
                             NewsLinkSerializer
 
 
-class TagCreate(View):
-    def get(self, request):
-        context = {'form': TagForm(), 'update': False }
-        return render(request, 'tag/form.html', context)
-
-    def post(self, request):
-        tform = TagForm(request.POST)
-        if tform.is_valid():
-            tag = tform.save()
-            return redirect(tag.get_absolute_url())
-        context = {'form': tform, 'update': False}
-        return render(request, 'tag/form.html', context)
+class TagCreate(CreateView):
+    form_class = TagForm
+    model = Tag
+    template_name = 'tag/form.html'
+    extra_context = {'update': False}
 
     
-class TagUpdate(View):
-    def get(self, request, slug):
-        tag = get_object_or_404(Tag, slug=slug)
-        context = {
-            'tag': tag,
-            'form': TagForm(instance=tag),
-            'update': True,
-        }
-        return render(request, 'tag/form.html', context)
-
-    def post(self, request, slug):
-        tag = get_object_or_404(Tag, slug=slug)
-        tform = TagForm(request.POST, instance=tag)
-        if tform.is_valid():
-            tag = tform.save()
-            return redirect(tag.get_absolute_url())
-        context = {'form': tform, 'update': True, 'tag': tag}
-        return render(request, 'tag/form.html', context)
+class TagUpdate(UpdateView):
+    form_class = TagForm
+    model = Tag
+    template_name = 'tag/form.html'
+    extra_context = {'update': True}
 
 
-class TagDelete(View):
-    def get(self, request, slug):
-        tag = get_object_or_404(Tag, slug=slug)
-        return render(
-            request, 'tag/confirm_delete.html', {'tag': tag}
-        )
+class TagDelete(DeleteView):
+    model = Tag
+    template_name = 'tag/confirm_delete.html'
+    success_url = reverse_lazy('tag_list')
 
-    def post(self, request, slug):
-        tag = get_object_or_404(Tag, slug=slug)
-        tag.delete()
-        return redirect(reverse('tag_list'))
-
-
+ 
 class TagApiDetail(RetrieveUpdateDestroyAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

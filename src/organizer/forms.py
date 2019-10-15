@@ -27,12 +27,6 @@ class TagForm(LowerCaseNameMixin, forms.ModelForm):
             return forms.ValidationError("Slug may not be 'create'.")
         return slug
 
-    def save(self):
-        return Tag.objects.create(
-            name=self.cleaned_data['name'],
-            slug=self.cleaned_data['slug'],
-        )
-
 
 class StartupForm(LowerCaseNameMixin, SlugCleanMixin, forms.ModelForm):
     class Meta:
