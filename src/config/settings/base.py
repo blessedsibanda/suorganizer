@@ -19,6 +19,8 @@ ENV = Env()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__name__)
 
+print(BASE_DIR, 'base dir')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
