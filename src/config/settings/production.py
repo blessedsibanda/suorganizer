@@ -1,6 +1,6 @@
 from .base import * 
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['*.herokuapp.com']
 
 ADMINS = MANAGERS = [
     ('Blessed Sibanda', 'blessedsibanda.me@gmail.com'),
@@ -35,3 +35,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.isAuthenticatedOrReadOnly',
     )
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
